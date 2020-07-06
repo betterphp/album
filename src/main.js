@@ -1,5 +1,6 @@
 /* global require process path __dirname */
 import { app, BrowserWindow } from "electron";
+import path from "path";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) { // eslint-disable-line global-require
@@ -31,6 +32,13 @@ const createWindow = () => {
         window = null;
     });
 };
+
+// Workaround for https://github.com/electron-userland/electron-webpack/issues/239
+app.setName("Album");
+app.setPath("userData", path.join(
+    app.getPath("appData"),
+    app.getName()
+));
 
 // Create the app window once Electron is ready
 app.on("ready", createWindow);

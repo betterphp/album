@@ -25,7 +25,7 @@
                 "packageManager": "yarn"
             },
             "electronWinstallerConfig": {
-                "name": "photo_picker"
+                "name": "album"
             },
             "electronInstallerDebian": {},
             "electronInstallerRedhat": {},
@@ -35,7 +35,7 @@
             },
             "windowsStoreConfig": {
                 "packageName": "",
-                "name": "photopicker"
+                "name": "album"
             }
         }
     },
