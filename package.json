@@ -1,0 +1,69 @@
+{
+    "name": "album",
+    "productName": "Album",
+    "description": "Image management for photographers",
+    "version": "1.0.0",
+    "main": "src/main.js",
+    "license": "MIT",
+    "scripts": {
+        "electron-start": "electron-forge start",
+        "electron-package": "electron-forge package",
+        "react-start": "BROWSER=none react-scripts start",
+        "react-build": "react-scripts build",
+        "start": "ENVIRONMENT=development run-p react-start electron-start",
+        "build": "run-s react-build electron-build",
+        "test": "react-scripts test"
+    },
+    "config": {
+        "forge": {
+            "make_targets": {
+                "win32": [ "squirrel" ],
+                "darwin": [ "zip" ],
+                "linux": [ "deb", "rpm" ]
+            },
+            "electronPackagerConfig": {
+                "packageManager": "yarn"
+            },
+            "electronWinstallerConfig": {
+                "name": "photo_picker"
+            },
+            "electronInstallerDebian": {},
+            "electronInstallerRedhat": {},
+            "github_repository": {
+                "owner": "",
+                "name": ""
+            },
+            "windowsStoreConfig": {
+                "packageName": "",
+                "name": "photopicker"
+            }
+        }
+    },
+    "jest": {
+        "watchPathIgnorePatterns": [
+            "out\/.+",
+            "node_modules\/.+"
+        ]
+    },
+    "browserslist": {
+        "production": [ "chrome 69" ],
+        "development": [ "chrome 69" ]
+    },
+    "devDependencies": {
+        "electron-forge": "^5.2.4",
+        "electron-prebuilt-compile": "8.2.0",
+        "react-scripts": "^3.4.1",
+        "npm-run-all": "^4.1.5",
+        "node-sass": "^4.14.1"
+    },
+    "dependencies": {
+        "electron-compile": "^6.4.4",
+        "electron-squirrel-startup": "^1.0.0",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "normalize.css": "^8.0.1",
+        "lodash": "^4.17.15",
+        "classnames": "^2.2.6",
+        "sharp": "^0.25.4"
+    }
+}

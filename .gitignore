@@ -1,0 +1,13 @@
+# Libraries
+/node_modules
+
+# Vim stuff
+*.swp
+*.swo
+/Session.vim
+
+# NPM lock file - use Yarn instead
+/package-lock.json
+
+# Compiled files
+/build
