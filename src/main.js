@@ -20,8 +20,10 @@ const createWindow = () => {
         height: 600,
     });
 
-    // Don't show a menu under the title bar
-//    window.setMenu(null);
+    // Don't show a menu under the title bar in production
+    if (process.env.ENVIRONMENT !== "development") {
+        window.setMenu(null);
+    }
 
     // Run the live-reload enabled version for dev environment
     if (process.env.ENVIRONMENT === "development") {
