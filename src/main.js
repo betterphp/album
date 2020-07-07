@@ -21,7 +21,7 @@ const createWindow = () => {
     });
 
     // Don't show a menu under the title bar
-    window.setMenu(null);
+//    window.setMenu(null);
 
     // Run the live-reload enabled version for dev environment
     if (process.env.ENVIRONMENT === "development") {

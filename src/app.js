@@ -1,4 +1,7 @@
 import React from "react";
+import { ConfigContext } from "context/config-context";
+
+import HeaderBar from "components/header-bar";
 
 const { app } = window.require("electron").remote;
 const fs = window.require("fs");
@@ -15,7 +18,11 @@ export default class App extends React.Component {
         super(props);
 
         this.state = {
-            config: {},
+            config: {
+                managedPaths: [
+                    app.getPath("pictures"),
+                ],
+            },
         };
     }
 
@@ -57,10 +64,15 @@ export default class App extends React.Component {
      */
     render () {
         return (
-            <div>
-                <h1>Album!</h1>
-                <span>{app.getPath("userData")}</span>
-            </div>
+            <ConfigContext.Provider value={this.state.config}>
+                <>
+                    <HeaderBar />
+                    <div>
+                        <div>{app.getPath("userData")}</div>
+                        <div>{app.getPath("pictures")}</div>
+                    </div>
+                </>
+            </ConfigContext.Provider>
         );
     }
 
