@@ -1,5 +1,5 @@
 import React from "react";
-import { withConfigContext } from "context/config-context";
+import { withConfigContext } from "render/context/config-context";
 
 import styles from "./header-bar.module.scss";
 

@@ -1,11 +1,12 @@
 import React from "react";
-import { ConfigContext } from "context/config-context";
+import { ConfigContext } from "render/context/config-context";
 
-import HeaderBar from "components/header-bar";
+import HeaderBar from "render/components/header-bar";
 
-const { app } = window.require("electron").remote;
-const fs = window.require("fs");
-const path = window.require("path");
+const { remote } = window.require("electron");
+const { app } = remote;
+const fs = remote.require("fs");
+const path = remote.require("path");
 
 export default class App extends React.Component {
 
