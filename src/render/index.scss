@@ -1,3 +1,5 @@
+@import "src/render/variables";
+
 body {
     font-family: -apple-system,
                  BlinkMacSystemFont,
@@ -33,5 +35,5 @@ html {
 }
 
 body {
-    background: #eee;
+    background: $background-color;
 }

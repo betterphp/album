@@ -1,12 +1,14 @@
 import React from "react";
+import { Switch, Route } from "react-router-dom";
 import { ConfigContext } from "render/context/config-context";
+import DashboardPage from "render/pages/dashboard-page";
+import SettingsPage from "render/pages/settings-page";
 
 import HeaderBar from "render/components/header-bar";
 
-const { remote } = window.require("electron");
-const { app } = remote;
-const fs = remote.require("fs");
-const path = remote.require("path");
+const app = window.require("electron").remote.app;
+const path = window.require("electron").remote.require("path");
+const fs = window.require("electron").remote.require("fs");
 
 export default class App extends React.Component {
 
@@ -66,13 +68,13 @@ export default class App extends React.Component {
     render () {
         return (
             <ConfigContext.Provider value={this.state.config}>
-                <>
-                    <HeaderBar />
-                    <div>
-                        <div>{app.getPath("userData")}</div>
-                        <div>{app.getPath("pictures")}</div>
-                    </div>
-                </>
+                <HeaderBar />
+                <main>
+                    <Switch>
+                        <Route exact path="/" component={DashboardPage} />
+                        <Route path="/settings" component={SettingsPage} />
+                    </Switch>
+                </main>
             </ConfigContext.Provider>
         );
     }

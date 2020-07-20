@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { withConfigContext } from "render/context/config-context";
 
 import styles from "./header-bar.module.scss";
@@ -13,7 +14,7 @@ class HeaderBar extends React.Component {
     render () {
         return (
             <div className={styles.container}>
-                {this.props.configContext.managedPaths[0]}
+                <Link to="/settings">Settings</Link>
             </div>
         );
     }

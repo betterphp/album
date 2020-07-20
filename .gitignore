@@ -12,3 +12,6 @@
 # Compiled files
 /build
 /dist
+
+# Yarn error log
+/yarn-error.log
