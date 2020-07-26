@@ -36,7 +36,12 @@ class DashboardPage extends React.Component {
         this.setState({ files: [] }, () => {
             this.props.configContext.managedPaths.map((folder) => {
                 fs.readdir(folder, {}, (err, result) => {
-                    const paths = result.map((name) => `${folder}/${name}`);
+                    const paths = result.filter((name) => {
+                                            const ext = name.toLowerCase().split(".").pop();
+
+                                            return ext === "jpg" || ext === "jpeg" || ext === "png";
+                                        })
+                                        .map((name) => `${folder}/${name}`);
 
                     this.setState((prevState) => ({
                         files: [
