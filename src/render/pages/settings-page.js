@@ -2,6 +2,8 @@ import React from "react";
 import { withConfigContext } from "render/context/config-context";
 import { withAppContext } from "render/context/app-context";
 
+const { dialog } = require("electron").remote;
+
 class SettingsPage extends React.Component {
 
     handleRemovePath = (path) => {
@@ -14,6 +16,29 @@ class SettingsPage extends React.Component {
             managedPaths: newPaths,
         }, () => {
             this.props.appContext.saveConfig();
+        });
+    }
+
+    handleAddButtonClick = () => {
+        dialog.showOpenDialog({
+            properties: [ "openDirectory" ],
+        }).then((result) => {
+            if (result.cancelled) {
+                return;
+            }
+
+            const { managedPaths } = this.props.configContext;
+            const newPaths = [
+                ...managedPaths,
+                ...result.filePaths,
+            ];
+
+            this.props.appContext.setConfig({
+                ...this.props.configContext,
+                managedPaths: newPaths,
+            }, () => {
+                this.props.appContext.saveConfig();
+            });
         });
     }
 
@@ -36,6 +61,9 @@ class SettingsPage extends React.Component {
                         </li>
                     ))}
                 </ol>
+                <button type="button" onClick={this.handleAddButtonClick}>
+                    Add
+                </button>
             </div>
         );
     }
