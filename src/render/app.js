@@ -51,10 +51,35 @@ export default class App extends React.Component {
     /**
      * Updates the global app config
      *
+     * @param {object} newConfig The new config, this replaced all existing config
+     * @param {function} callback A function to call after setting the state
+     *
      * @return {void}
      */
     setConfig = (config, callback) => {
         this.setState({ config }, callback);
+    }
+
+    /**
+     * Appends to the global app state.
+     * 
+     * @param {object} newConfig The new config, this is merged with existing config
+     * @param {function} callback A function to call after setting the state
+     *
+     * @return {void}
+     */
+    ammendConfig = (newConfig, callback) => {
+        console.log(newConfig);
+
+        this.setState(
+            (prevState) => ({
+                config: {
+                    ...prevState.config,
+                    ...newConfig,
+                },
+            }),
+            callback
+        );
     }
 
     /**
@@ -99,6 +124,7 @@ export default class App extends React.Component {
             loadConfig: this.loadConfig,
             saveConfig: this.saveConfig,
             setConfig: this.setConfig,
+            ammendConfig: this.ammendConfig,
         };
 
         return (
