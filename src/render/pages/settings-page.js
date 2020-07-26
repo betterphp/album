@@ -21,7 +21,10 @@ class SettingsPage extends React.Component {
 
     handleAddButtonClick = () => {
         dialog.showOpenDialog({
-            properties: [ "openDirectory" ],
+            properties: [
+                "openDirectory",
+                "multiSelections",
+            ],
         }).then((result) => {
             if (result.cancelled) {
                 return;
