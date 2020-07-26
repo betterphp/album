@@ -44,7 +44,8 @@ export default class App extends React.Component {
      * @return {void}
      */
     saveConfig = () => {
-        saveConfigFile().then(() => this.loadConfig());
+        saveConfigFile(this.state.config)
+            .then(() => this.loadConfig());
     }
 
     /**
@@ -52,8 +53,8 @@ export default class App extends React.Component {
      *
      * @return {void}
      */
-    setConfig = (config) => {
-        this.setState({ config });
+    setConfig = (config, callback) => {
+        this.setState({ config }, callback);
     }
 
     /**

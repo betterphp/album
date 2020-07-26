@@ -14,7 +14,7 @@ const defaultConfig = {
 const loadConfigFile = () => {
     return new Promise((resolve, reject) => {
         fs.readFile(configFilePath, (err, data) => {
-            if (err.code === "ENOENT") {
+            if (err && err.code === "ENOENT") {
                 // Return the default config if the file is not there
                 resolve(defaultConfig);
             } else if (!data) {
