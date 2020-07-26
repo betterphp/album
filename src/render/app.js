@@ -6,9 +6,10 @@ import SettingsPage from "render/pages/settings-page";
 
 import HeaderBar from "render/components/header-bar";
 
-const app = window.require("electron").remote.app;
-const path = window.require("electron").remote.require("path");
-const fs = window.require("electron").remote.require("fs");
+const { remote } = window.require("electron");
+const app = remote.app;
+const path = remote.require("path");
+const fs = remote.require("fs");
 
 export default class App extends React.Component {
 
@@ -39,7 +40,9 @@ export default class App extends React.Component {
 
         fs.readFile(configFile, (err, data) => {
             // File not existing is expected, throw anything else
-            if (err.code !== "ENOENT") {
+            if (err.code === "ENOENT") {
+                return;
+            } else {
                 throw err;
             }
 
