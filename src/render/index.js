@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MemoryRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { AppContainer as ReactHotAppContainer } from "react-hot-loader";
 import App from "./app";
 
@@ -13,9 +13,9 @@ const AppContainer = (process.env.PLAIN_HMR)
 
 const app = (
     <AppContainer>
-        <MemoryRouter>
+        <HashRouter>
             <App />
-        </MemoryRouter>
+        </HashRouter>
     </AppContainer>
 );
 

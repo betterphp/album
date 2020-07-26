@@ -1,15 +1,12 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { ConfigContext } from "render/context/config-context";
+import { AppContext } from "render/context/app-context";
 import DashboardPage from "render/pages/dashboard-page";
 import SettingsPage from "render/pages/settings-page";
+import { loadConfigFile, saveConfigFile } from "render/lib/config-manager";
 
 import HeaderBar from "render/components/header-bar";
-
-const { remote } = window.require("electron");
-const app = remote.app;
-const path = remote.require("path");
-const fs = remote.require("fs");
 
 export default class App extends React.Component {
 
@@ -22,11 +19,8 @@ export default class App extends React.Component {
         super(props);
 
         this.state = {
-            config: {
-                managedPaths: [
-                    app.getPath("pictures"),
-                ],
-            },
+            loaded: false,
+            config: null,
         };
     }
 
@@ -35,23 +29,31 @@ export default class App extends React.Component {
      *
      * @return {void}
      */
-    loadConfig () {
-        const configFile = path.join(app.getPath("userData"), "config.json");
-
-        fs.readFile(configFile, (err, data) => {
-            // File not existing is expected, throw anything else
-            if (err.code === "ENOENT") {
-                return;
-            } else {
-                throw err;
-            }
-
-            const config = window.JSON.parse(data);
-
+    loadConfig = () => {
+        loadConfigFile().then((config) => {
             this.setState({
+                loaded: true,
                 config,
             });
         });
+    }
+
+    /**
+     * Saves the app config to the json file
+     *
+     * @return {void}
+     */
+    saveConfig = () => {
+        saveConfigFile().then(() => this.loadConfig());
+    }
+
+    /**
+     * Updates the global app config
+     *
+     * @return {void}
+     */
+    setConfig = (config) => {
+        this.setState({ config });
     }
 
     /**
@@ -64,13 +66,13 @@ export default class App extends React.Component {
     }
 
     /**
-     * Renders the component
+     * Renders the main app content
      *
-     * @return {React.Component} The component
+     * @return {React.Component}
      */
-    render () {
+    renderApp () {
         return (
-            <ConfigContext.Provider value={this.state.config}>
+            <>
                 <HeaderBar />
                 <main>
                     <Switch>
@@ -78,7 +80,32 @@ export default class App extends React.Component {
                         <Route path="/settings" component={SettingsPage} />
                     </Switch>
                 </main>
-            </ConfigContext.Provider>
+            </>
+        );
+    }
+
+    /**
+     * Renders the component
+     *
+     * @return {React.Component} The component
+     */
+    render () {
+        if (!this.state.loaded) {
+            return <div>Loading</div>;
+        }
+
+        const appContext = {
+            loadConfig: this.loadConfig,
+            saveConfig: this.saveConfig,
+            setConfig: this.setConfig,
+        };
+
+        return (
+            <AppContext.Provider value={appContext}>
+                <ConfigContext.Provider value={this.state.config}>
+                    {this.renderApp()}
+                </ConfigContext.Provider>
+            </AppContext.Provider>
         );
     }
 
