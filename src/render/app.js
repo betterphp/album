@@ -5,6 +5,7 @@ import { AppContext } from "render/context/app-context";
 import DashboardPage from "render/pages/dashboard-page";
 import SettingsPage from "render/pages/settings-page";
 import { loadConfigFile, saveConfigFile } from "render/lib/config-manager";
+import { createThumbnailsForFoldersList } from "render/lib/thumbnail-utils";
 
 import HeaderBar from "render/components/header-bar";
 
@@ -25,15 +26,50 @@ export default class App extends React.Component {
     }
 
     /**
-     * Loads the app config from the json file
+     * Called when the component is added to the DOM
      *
      * @return {void}
      */
-    loadConfig = () => {
+    componentDidMount () {
+        this.loadConfig(this.createThumbnails);
+    }
+
+    /**
+     * Generates thumbnails for all images in all managed folders
+     *
+     * @return {void}
+     */
+    createThumbnails = () => {
+        this.setState(
+            { generatingThumbnails: true },
+            () => {
+                const folders = this.state.config.managedPaths;
+
+                createThumbnailsForFoldersList(folders).then(() => {
+                    this.setState({
+                        generatingThumbnails: false,
+                    });
+                });
+            }
+        );
+    }
+
+    /**
+     * Loads the app config from the json file
+     *
+     * @param {function} callback Optional function to call once the config has been loaded
+     *
+     * @return {void}
+     */
+    loadConfig = (callback = undefined) => {
         loadConfigFile().then((config) => {
             this.setState({
                 loaded: true,
                 config,
+            }, () => {
+                if (callback) {
+                    callback();
+                }
             });
         });
     }
@@ -80,15 +116,6 @@ export default class App extends React.Component {
             }),
             callback
         );
-    }
-
-    /**
-     * Called when the component is added to the DOM
-     *
-     * @return {void}
-     */
-    componentDidMount () {
-        this.loadConfig();
     }
 
     /**
