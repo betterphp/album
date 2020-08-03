@@ -1,5 +1,6 @@
 import React from "react";
 import { withConfigContext } from "render/context/config-context";
+import { isHandledFile } from "render/lib/thumbnail-utils";
 
 const fs = window.require("electron").remote.require("fs");
 
@@ -36,11 +37,7 @@ class DashboardPage extends React.Component {
         this.setState({ files: [] }, () => {
             this.props.configContext.managedPaths.map((folder) => {
                 fs.readdir(folder, {}, (err, result) => {
-                    const paths = result.filter((name) => {
-                                            const ext = name.toLowerCase().split(".").pop();
-
-                                            return ext === "jpg" || ext === "jpeg" || ext === "png";
-                                        })
+                    const paths = result.filter(isHandledFile)
                                         .map((name) => `${folder}/${name}`);
 
                     this.setState((prevState) => ({

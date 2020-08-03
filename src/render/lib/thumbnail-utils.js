@@ -121,6 +121,7 @@ const createThumbnailsForFolder = (folder) => {
 };
 
 export {
+    isHandledFile,
     createThumbnailsForFoldersList,
     createThumbnailsForFolder,
 };
