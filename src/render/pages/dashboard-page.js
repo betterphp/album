@@ -1,6 +1,9 @@
 import React from "react";
 import { withConfigContext } from "render/context/config-context";
 import { isHandledFile } from "render/lib/thumbnail-utils";
+import Image from "render/components/image";
+
+import styles from "./dashboard-page.module.scss";
 
 const fs = window.require("electron").remote.require("fs");
 
@@ -58,13 +61,16 @@ class DashboardPage extends React.Component {
      */
     render () {
         return (
-            <ul>
+            <div className={styles.container}>
                 {this.state.files.map((file) => (
-                    <li key={file}>
-                        {file}
-                    </li>
+                    <div
+                        key={file}
+                        className={styles.image}
+                    >
+                        <Image file={file} />
+                    </div>
                 ))}
-            </ul>
+            </div>
         );
     }
 

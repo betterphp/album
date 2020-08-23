@@ -1,4 +1,4 @@
-import { app } from "electron";
+import { app, protocol } from "electron";
 import path from "path";
 import { createAppWindow } from "./app-window";
 
@@ -15,8 +15,18 @@ app.setPath("userData", path.join(
     app.getName()
 ));
 
-// Create the app window once Electron is ready
-app.on("ready", createAppWindow);
+app.on("ready", () => {
+    // Register a custom handler to make file:// URLs work
+    // https://github.com/electron/electron/issues/23757#issuecomment-640146333
+    protocol.registerFileProtocol("file", (request, callback) => {
+        const pathname = request.url.replace("file:///", "");
+
+        callback(pathname);
+    });
+
+    // Create the main app window
+    createAppWindow();
+});
 
 // Quit when all windows are closed. On OS X it is common for applications and
 // their menu bar to stay active until the user quits explicitly with Cmd + Q
