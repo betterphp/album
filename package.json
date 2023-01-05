@@ -67,7 +67,7 @@
         "mkdirp": "^1.0.4",
         "node-gyp": "^7.0.0",
         "node-loader": "^1.0.0",
-        "node-sass": "^4.14.1",
+        "node-sass": "^7.0.0",
         "normalize.css": "^8.0.1",
         "p-queue": "^6.6.0",
         "postcss-flexbugs-fixes": "^4.2.1",
